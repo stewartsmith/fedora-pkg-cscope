@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 8 
+Release: 9 
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -19,6 +19,7 @@ Patch2:cscope-15.5-ocs-dash_s_fix.patch
 Patch3:cscope-15.5-xcscope-man.patch
 Patch4:cscope-15.5-inverted.patch
 Patch5:cscope-15.5-resize.patch
+Patch6:cscope-15.5-tempsec.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -35,6 +36,7 @@ matches for use in file editing.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %configure
@@ -83,6 +85,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Tue Nov 30 2004 Neil Horman <nhorman@redhat.com>
+- added tempsec patch to fix bz140764/140765
+
 * Mon Nov 29 2004 Neil Horman <nhorman@redhat.com>
 - updated cscope resize patch to do less work in
   signal handler and synced version nr. on dist.
