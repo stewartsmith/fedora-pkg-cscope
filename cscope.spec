@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 0.fdr.3.2
+Release: 1
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -79,6 +79,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Mon Sep 13 2004 Frank Ch. Eigler <fche@redhat.com>
+- bumped release number to a plain "1"
+
 * Fri Jul 16 2004 Neil Horman <nhorman@redhat.com>
 - Added cscope-indexer helper and xcscope lisp addon
 - Added man page for xcscope
