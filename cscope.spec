@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 6 
+Release: 7 
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -83,6 +83,10 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Mon Nov 29 2004 Neil Horman <nhorman@redhat.com>
+- updated cscope resize patch to do less work in
+  signal handler and synced version nr. on dist.
+
 * Mon Nov 22 2004 Neil Horman <nhorman@redhat.com>
 - added cscope-1.5.-resize patch to allow terminal
   resizing while cscope is running

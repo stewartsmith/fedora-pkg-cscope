@@ -1,5 +1,41 @@
+--- cscope-15.5/src/command.c.orig	2004-11-26 21:21:46.523695928 -0500
++++ cscope-15.5/src/command.c	2004-11-26 21:30:35.322306320 -0500
+@@ -80,6 +80,7 @@
+ 	FILE	*file;
+ 	struct	cmd	 *curritem, *item;	/* command history */
+ 	char	*s;
++	int lines, cols;
+ 
+ 	switch (commandc) {
+ 
+@@ -405,6 +406,25 @@
+ 		entercurses();
+ 		break;
+ 
++	case KEY_RESIZE:
++		exitcurses();
++		initscr();
++		entercurses();
++#if TERMINFO
++		(void) keypad(stdscr, TRUE);	/* enable the keypad */
++#ifdef HAVE_FIXKEYPAD
++		fixkeypad();	/* fix for getch() intermittently returning garbage */
++#endif
++#endif
++#if UNIXPC
++		standend();	/* turn off reverse video */
++#endif
++		dispinit();	/* initialize display parameters */
++		setfield();	/* set the initial cursor position */
++		postmsg("");	/* clear any build progress message */
++		display();	/* display the version number and input fields */
++		break;
++
+ 	case ctrl('L'):	/* redraw screen */
+ #if TERMINFO
+ 	case KEY_CLEAR:
 --- cscope-15.5/src/input.c.orig	2001-07-18 09:49:01.000000000 -0400
-+++ cscope-15.5/src/input.c	2004-11-22 14:43:09.000000000 -0500
++++ cscope-15.5/src/input.c	2004-11-26 21:18:09.526684488 -0500
 @@ -43,6 +43,7 @@
  #endif
  #include <setjmp.h>	/* jmp_buf */
@@ -26,26 +62,8 @@
  	}
  	else {	/* longjmp to here from signal handler */
  		c = KEY_BREAK;
---- cscope-15.5/src/display.c.orig	2004-11-22 14:42:32.000000000 -0500
-+++ cscope-15.5/src/display.c	2004-11-22 14:43:05.000000000 -0500
-@@ -129,6 +129,15 @@
- 	if (mouse == NO && mdisprefs > strlen(dispchars))
- 		mdisprefs = strlen(dispchars);
- 
-+	/*
-+	 *this function can be called from a signal handler 
-+	 *as well as the main routine, meaning we might need
-+	 *to free memory that we alloc later in here to avoid 
-+	 *a leak
-+	 */
-+	if(displine)
-+		free(displine);
-+
- 	/* allocate the displayed line array */
- 	displine = mymalloc(mdisprefs * sizeof(int));
- }
 --- cscope-15.5/src/main.c.orig	2003-08-14 10:36:18.000000000 -0400
-+++ cscope-15.5/src/main.c	2004-11-22 14:45:21.000000000 -0500
++++ cscope-15.5/src/main.c	2004-11-26 21:27:12.506139064 -0500
 @@ -50,6 +50,7 @@
  #endif
  #include <sys/types.h>	/* needed by stat.h */
@@ -54,42 +72,19 @@
  
  /* defaults for unset environment variables */
  #define	EDITOR	"vi"
-@@ -120,6 +121,34 @@
+@@ -120,6 +121,11 @@
  void	fixkeypad();
  #endif
  
-+/*
-+ *this handler gets called every time the terminal size changes
-+ *basically all it does is tear down ncurses, and re-initalizes 
-+ *it, allowing it to repaint the screen at the new dimensions
-+ *There may well be a more elegant way to do this, but this is
-+ *pretty straightforward, and isn't very intrusive.
-+ */
 +void sigwinch_handler(int sig, siginfo_t *info, void *unused)
 +{
-+	exitcurses();
-+	initscr();
-+	entercurses();
-+#if TERMINFO
-+	(void) keypad(stdscr, TRUE);	/* enable the keypad */
-+#ifdef HAVE_FIXKEYPAD
-+	fixkeypad();	/* fix for getch() intermittently returning garbage */
-+#endif
-+#endif
-+#if UNIXPC
-+	standend();	/* turn off reverse video */
-+#endif
-+	postmsg("");
-+	dispinit();	/* initialize display parameters */
-+	setfield();	/* set the initial cursor position */
-+	postmsg("");	/* clear any build progress message */
-+	display();	/* display the version number and input fields */
++	ungetch(KEY_RESIZE);
 +}
 +
  int
  main(int argc, char **argv)
  {
-@@ -131,12 +160,19 @@
+@@ -131,12 +137,20 @@
  	int	c, i;
  	pid_t	pid;
  	struct stat	stat_buf;
@@ -103,6 +98,7 @@
 +	winch_action.sa_sigaction = sigwinch_handler;
 +	sigemptyset(&winch_action.sa_mask);
 +	winch_action.sa_flags = SA_SIGINFO;
++	winch_action.sa_restorer = NULL;
 +
 +	sigaction(SIGWINCH,&winch_action,NULL);	
 +
