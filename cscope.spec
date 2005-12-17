@@ -1,6 +1,6 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
-Version: 15.5
+Version: 15.6
 Release: 11 
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
@@ -85,6 +85,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Fri Dec 16 2005 Jesse Keating <jkeating@redhat.com>
+- rebuild on new gcc
+
 * Tue Nov 30 2004 Neil Horman <nhorman@redhat.com>
 - added tempsec patch to fix bz140764/140765
 
