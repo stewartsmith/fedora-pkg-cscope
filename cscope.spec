@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 13.2 
+Release: 13.4 
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -20,6 +20,7 @@ Patch3:cscope-15.5-xcscope-man.patch
 Patch4:cscope-15.5-inverted.patch
 Patch5:cscope-15.5-resize.patch
 Patch6:cscope-15.5-tempsec.patch
+Patch7:cscope-15.5-inv-overflow.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -37,6 +38,7 @@ matches for use in file editing.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %configure
@@ -85,6 +87,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Fri Apr 21 2006 Neil Horman <nhorman@redhat.com> - 15.5-13.4
+- adding inverted index overflow patch
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 15.5-13.2
 - bump again for double-long bug on ppc(64)
 
