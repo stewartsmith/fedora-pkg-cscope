@@ -22,6 +22,7 @@ Patch5:cscope-15.5-resize.patch
 Patch6:cscope-15.5-tempsec.patch
 Patch7:cscope-15.5-inv-overflow.patch
 Patch8:cscope-15.5-ocs-sysdir.patch
+Patch9:cscope-15.5-putstring-overflow.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -89,6 +90,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Fri Jun 23 2006 Neil Horman <nhorman@redhat.com>
+- Fix putstring overflow (bz 189666)
+
 * Fri May 5  2006 Neil Horman <nhorman@redhat.com>
 - Adding fix to put SYSDIR in right location (bz190580)
 
