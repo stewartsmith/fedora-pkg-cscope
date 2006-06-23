@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 13.5 
+Release: 13.6 
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -42,6 +42,7 @@ matches for use in file editing.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1 
 
 %build
 %configure
