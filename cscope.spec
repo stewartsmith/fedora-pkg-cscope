@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 13.8 
+Release: 14
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -91,6 +91,12 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Mon Jul 17 2006 Jesse Keating <jkeating@redhat.com> - 15.5-14
+- rebuild
+
+* Fri Jun 23 2006 Neil Horman <nhorman@redhat.com>
+- Fix putstring overflow (bz 189666)
+
 * Fri Jun 23 2006 Neil Horman <nhorman@redhat.com>
 - Fix putstring overflow (bz 189666)
 
