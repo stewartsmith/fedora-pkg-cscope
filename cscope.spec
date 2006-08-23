@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 14
+Release: 15%{dist}.1
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -23,6 +23,7 @@ Patch6:cscope-15.5-tempsec.patch
 Patch7:cscope-15.5-inv-overflow.patch
 Patch8:cscope-15.5-ocs-sysdir.patch
 Patch9:cscope-15.5-putstring-overflow.patch
+Patch10: cscope-15.5-fscanf-overflows.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -43,6 +44,7 @@ matches for use in file editing.
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1 
+%patch10 -p1
 
 %build
 %configure
@@ -91,6 +93,10 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Wed Aug 23 2006 Neil Horman <nhorman@redhat.com> -15.5-15%{dist}.1
+- fixed overflows per bz 203651
+- start using %{dist} tag to make release numbering easier
+
 * Mon Jul 17 2006 Jesse Keating <jkeating@redhat.com> - 15.5-14
 - rebuild
 
