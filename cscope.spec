@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 15.2.%{dist}
+Release: 15.3%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -93,6 +93,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Mon Feb 05 2007 Neil Horman <nhorman@redhat.com> -15.5-15.3.dist
+- Fixing dist label in release tag.
+
 * Thu Feb 01 2007 Neil Horman <nhorman@redhat.com> -15.5-15.2.dist
 - Fixing changelog to not have macro in release
 
