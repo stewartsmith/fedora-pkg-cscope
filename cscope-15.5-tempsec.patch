@@ -1,6 +1,6 @@
---- cscope-15.5/src/main.c.orig	2004-11-30 10:47:56.000000000 -0500
-+++ cscope-15.5/src/main.c	2004-11-30 12:58:13.000000000 -0500
-@@ -102,6 +102,7 @@
+--- cscope-15.5/src/main.c.orig	2007-03-05 11:59:08.000000000 -0500
++++ cscope-15.5/src/main.c	2007-03-05 11:59:33.000000000 -0500
+@@ -102,6 +102,7 @@ BOOL	select_large = NO;	/* enable more t
  #endif
  char	temp1[PATHLEN + 1];	/* temporary file name */
  char	temp2[PATHLEN + 1];	/* temporary file name */
@@ -8,7 +8,7 @@
  long	totalterms;		/* total inverted index terms */
  BOOL	trun_syms;		/* truncate symbols to 8 characters */
  char	tempstring[8192];	/* use this as a buffer, instead of 'yytext', 
-@@ -138,6 +139,7 @@
+@@ -138,6 +139,7 @@ main(int argc, char **argv)
  	pid_t	pid;
  	struct stat	stat_buf;
  	struct sigaction winch_action;
@@ -16,7 +16,7 @@
  	
  	yyin = stdin;
  	yyout = stdout;
-@@ -344,9 +346,18 @@
+@@ -337,9 +339,18 @@ lastarg:
  	}
  
  	/* create the temporary file names */
@@ -37,7 +37,7 @@
  
  	/* if running in the foreground */
  	if (signal(SIGINT, SIG_IGN) != SIG_IGN) {
-@@ -848,6 +859,7 @@
+@@ -847,6 +858,7 @@ myexit(int sig)
  	if (temp1[0] != '\0') {
  		(void) unlink(temp1);
  		(void) unlink(temp2);
