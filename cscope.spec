@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 15.4%{?dist}
+Release: 16%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -93,6 +93,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Fri Jan 18 2008 Neil Horman <nhorman@redhat.com> -15.5-16.dist
+- Fix revision sillyness & bump rev for rebuild
+
 * Mon Mar 05 2007 Neil Horman <nhorman@redhat.com> -15.5-15.4.dist
 - Make sigwinch handler only register for curses mode (bz 230862)
 
