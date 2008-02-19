@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 16%{?dist}
+Release: 17%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -93,6 +93,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 15.5-17
+- Autorebuild for GCC 4.3
+
 * Fri Jan 18 2008 Neil Horman <nhorman@redhat.com> -15.5-16.dist
 - Fix revision sillyness & bump rev for rebuild
 
