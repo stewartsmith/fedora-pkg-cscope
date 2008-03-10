@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.5
-Release: 17%{?dist}
+Release: 18%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -24,6 +24,7 @@ Patch7:cscope-15.5-inv-overflow.patch
 Patch8:cscope-15.5-ocs-sysdir.patch
 Patch9:cscope-15.5-putstring-overflow.patch
 Patch10: cscope-15.5-fscanf-overflows.patch
+Patch11: cscope-15.5-samelist.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -45,6 +46,7 @@ matches for use in file editing.
 %patch8 -p1
 %patch9 -p1 
 %patch10 -p1
+%patch11 -p1
 
 %build
 %configure
@@ -93,6 +95,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Mon Mar 10 2008 Neil Horman <nhorman@redhat.com> -15.5-18
+- Fix samelist to properly absorb newlines (bz 436648)
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 15.5-17
 - Autorebuild for GCC 4.3
 

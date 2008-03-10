@@ -1,0 +1,24 @@
+diff -up cscope-15.5/src/build.c.orig cscope-15.5/src/build.c
+--- cscope-15.5/src/build.c.orig	2008-03-10 14:12:49.000000000 -0400
++++ cscope-15.5/src/build.c	2008-03-10 14:13:32.000000000 -0400
+@@ -106,16 +106,17 @@ samelist(FILE *oldrefs, char **names, in
+ {
+ 	char	oldname[PATHLEN + 1];	/* name in old cross-reference */
+ 	int	oldcount;
+-	int	i;
++	int	i, matchcnt;
+ 
+ 	/* see if the number of names is the same */
+-	if (fscanf(oldrefs, "%d", &oldcount) != 1 ||
++	if (fscanf(oldrefs, "%d\n", &oldcount) != 1 ||
+ 	    oldcount != count) {
+ 		return(NO);
+ 	}
+ 	/* see if the name list is the same */
+ 	for (i = 0; i < count; ++i) {
+-		if (! fgets(oldname, sizeof(oldname), oldrefs)||
++		matchcnt = fscanf(oldrefs,"%s\n",oldname);
++		if ((! matchcnt) ||
+ 		    strnotequal(oldname, names[i])) {
+ 			return(NO);
+ 		}
