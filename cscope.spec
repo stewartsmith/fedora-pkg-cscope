@@ -1,8 +1,8 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
-Version: 15.5
-Release: 18%{?dist}
-Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.5.tar.gz 
+Version: 15.6
+Release: 1%{?dist}
+Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.6.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
 Group: Development/Tools 
@@ -13,18 +13,10 @@ BuildRequires: pkgconfig ncurses-devel flex bison m4
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
 
-Patch0:cscope-15.5-ocs.patch
-Patch1:cscope-15.5-findassign.patch
-Patch2:cscope-15.5-ocs-dash_s_fix.patch
-Patch3:cscope-15.5-xcscope-man.patch
-Patch4:cscope-15.5-inverted.patch
-Patch5:cscope-15.5-resize.patch
-Patch6:cscope-15.5-tempsec.patch
-Patch7:cscope-15.5-inv-overflow.patch
-Patch8:cscope-15.5-ocs-sysdir.patch
-Patch9:cscope-15.5-putstring-overflow.patch
-Patch10: cscope-15.5-fscanf-overflows.patch
-Patch11: cscope-15.5-samelist.patch
+Patch0:cscope-15.6-findassign.patch
+Patch1:cscope-15.6-ocs.patch
+Patch2:cscope-15.6-xcscope-man.patch
+Patch3:cscope-15.6-sigwinch-linemode.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -39,14 +31,6 @@ matches for use in file editing.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1 
-%patch10 -p1
-%patch11 -p1
 
 %build
 %configure
@@ -95,14 +79,8 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
-* Mon Mar 10 2008 Neil Horman <nhorman@redhat.com> -15.5-18
-- Fix samelist to properly absorb newlines (bz 436648)
-
-* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 15.5-17
-- Autorebuild for GCC 4.3
-
-* Fri Jan 18 2008 Neil Horman <nhorman@redhat.com> -15.5-16.dist
-- Fix revision sillyness & bump rev for rebuild
+* Fri Mar 25 2007 Neil Horman <nhorman@redhat.com> -15.6-1.dist
+- Rebase to version 15.6
 
 * Mon Mar 05 2007 Neil Horman <nhorman@redhat.com> -15.5-15.4.dist
 - Make sigwinch handler only register for curses mode (bz 230862)

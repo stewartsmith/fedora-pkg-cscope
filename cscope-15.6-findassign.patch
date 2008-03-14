@@ -1,22 +1,6 @@
-diff -rU4 -N cscope-15.5/src/constants.h cscope-15.5-findassign/src/constants.h
---- cscope-15.5/src/constants.h	2003-09-04 11:54:02.000000000 -0400
-+++ cscope-15.5-findassign/src/constants.h	2004-07-01 21:37:42.000000000 -0400
-@@ -92,9 +92,9 @@
- #define	CHANGE		5
- #define	REGEXP		6
- #define FILENAME	7
- #define INCLUDES	8
--#define	FIELDS		9
-+#define	FIELDS		11
- 
- #if (BSD || V9) && !__NetBSD__
- #define TERMINFO	0	/* no terminfo curses */
- #else
-diff -rU4 -N cscope-15.5/src/display.c cscope-15.5-findassign/src/display.c
---- cscope-15.5/src/display.c	2003-09-04 11:54:02.000000000 -0400
-+++ cscope-15.5-findassign/src/display.c	2004-07-01 21:06:47.000000000 -0400
-@@ -104,8 +104,9 @@
- 	{"Find this", "egrep pattern",			findregexp},
+--- cscope-15.6/src/display.c.orig	2006-09-30 04:13:00.000000000 -0400
++++ cscope-15.6/src/display.c	2007-05-25 10:15:14.000000000 -0400
+@@ -113,6 +113,7 @@
  	{"Find this", "file",				findfile},
  	{"Find", "files #including this file",		findinclude},
  	{"Find all", "function definitions",		findallfcns},	/* samuel only */
@@ -24,12 +8,19 @@ diff -rU4 -N cscope-15.5/src/display.c cscope-15.5-findassign/src/display.c
  };
  
  /* Internal prototypes: */
- static	RETSIGTYPE	jumpback(int sig);
-diff -rU4 -N cscope-15.5/src/find.c cscope-15.5-findassign/src/find.c
---- cscope-15.5/src/find.c	2003-09-04 11:58:52.000000000 -0400
-+++ cscope-15.5-findassign/src/find.c	2004-07-01 22:10:31.000000000 -0400
-@@ -76,8 +76,10 @@
- static	char	*lcasify(char *s);
+--- cscope-15.6/src/global.h.orig	2006-09-30 04:13:00.000000000 -0400
++++ cscope-15.6/src/global.h	2007-05-25 10:15:14.000000000 -0400
+@@ -327,6 +327,7 @@
+ char	*findfile(char *dummy);
+ char	*findinclude(char *pattern);
+ char	*findsymbol(char *pattern);
++char	*findassign(char *pattern);
+ char	*findregexp(char *egreppat);
+ char	*findstring(char *pattern);
+ char	*inviewpath(char *file);
+--- cscope-15.6/src/find.c.orig	2006-09-30 04:13:00.000000000 -0400
++++ cscope-15.6/src/find.c	2007-05-25 10:15:27.000000000 -0400
+@@ -79,6 +79,8 @@
  static	void	findcalledbysub(char *file, BOOL macro);
  static	void	findterm(char *pattern);
  static	void	putline(FILE *output);
@@ -38,9 +29,7 @@ diff -rU4 -N cscope-15.5/src/find.c cscope-15.5-findassign/src/find.c
  static	void	putpostingref(POSTING *p, char *pat);
  static	void	putref(int seemore, char *file, char *func);
  static	void	putsource(int seemore, FILE *output);
- 
-@@ -85,8 +87,79 @@
- 
+@@ -88,6 +90,77 @@
  char *
  findsymbol(char *pattern)
  {
@@ -69,7 +58,7 @@ diff -rU4 -N cscope-15.5/src/find.c cscope-15.5-findassign/src/find.c
 +		if (asgn_char[i] == blockmark) {
 +			/* get the next block when we reach the end of
 +			* the current block */
-+			asgn_char = readblock();
++			asgn_char = read_block();
 +			i=0;
 +		}
 +		while (isspace((unsigned char) asgn_char[i])) {
@@ -118,9 +107,7 @@ diff -rU4 -N cscope-15.5/src/find.c cscope-15.5-findassign/src/find.c
  	char	file[PATHLEN + 1];	/* source file name */
  	char	function[PATLEN + 1];	/* function name */
  	char	macro[PATLEN + 1];	/* macro name */
- 	char	symbol[PATLEN + 1];	/* symbol name */
-@@ -242,8 +315,16 @@
- 			/* match the rest of the symbol to the text pattern */
+@@ -249,6 +322,14 @@
  			if (matchrest()) {
  				s = NULL;
  		matched:
@@ -135,17 +122,14 @@ diff -rU4 -N cscope-15.5/src/find.c cscope-15.5-findassign/src/find.c
  				/* output the file, function or macro, and source line */
  				if (strcmp(macro, global) && s != macro) {
  					putref(0, file, macro);
- 				}
-diff -rU4 -N cscope-15.5/src/global.h cscope-15.5-findassign/src/global.h
---- cscope-15.5/src/global.h	2003-09-04 11:54:03.000000000 -0400
-+++ cscope-15.5-findassign/src/global.h	2004-07-01 21:19:24.000000000 -0400
-@@ -318,8 +318,9 @@
- char	*finddef(char *pattern);
- char	*findfile(char *dummy);
- char	*findinclude(char *pattern);
- char	*findsymbol(char *pattern);
-+char	*findassign(char *pattern);
- char	*findregexp(char *egreppat);
- char	*findstring(char *pattern);
- char	*inviewpath(char *file);
- char	*lookup(char *ident);
+--- cscope-15.6/src/constants.h.orig	2006-09-30 04:13:00.000000000 -0400
++++ cscope-15.6/src/constants.h	2007-05-25 10:15:14.000000000 -0400
+@@ -101,7 +101,7 @@
+ #define	REGEXP		6
+ #define FILENAME	7
+ #define INCLUDES	8
+-#define	FIELDS		9
++#define	FIELDS		11
+ 
+ #if (BSD || V9) && !__NetBSD__ && !__FreeBSD__
+ # define TERMINFO	0	/* no terminfo curses */

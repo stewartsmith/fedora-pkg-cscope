@@ -1,20 +1,5 @@
-diff -rU4 -N -p cscope-15.5/doc/Makefile.in cscope-15.5-xcscope/doc/Makefile.in
---- cscope-15.5/doc/Makefile.in	2003-09-04 12:51:25.000000000 -0400
-+++ cscope-15.5-xcscope/doc/Makefile.in	2004-07-20 13:49:11.000000000 -0400
-@@ -129,9 +129,9 @@ sbindir = @sbindir@
- sharedstatedir = @sharedstatedir@
- sysconfdir = @sysconfdir@
- target_alias = @target_alias@
- 
--man_MANS = cscope.1
-+man_MANS = cscope.1 xcscope.1
- EXTRA_DIST = $(man_MANS)
- subdir = doc
- mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
- CONFIG_HEADER = $(top_builddir)/config.h
-diff -rU4 -N -p cscope-15.5/doc/xcscope.1 cscope-15.5-xcscope/doc/xcscope.1
---- cscope-15.5/doc/xcscope.1	1969-12-31 19:00:00.000000000 -0500
-+++ cscope-15.5-xcscope/doc/xcscope.1	2004-07-20 13:47:48.000000000 -0400
+--- /dev/null	2007-05-12 17:40:21.471089444 -0400
++++ cscope-15.6/doc/xcscope.1	2007-05-25 09:45:31.000000000 -0400
 @@ -0,0 +1,577 @@
 +'\" t
 +.\" The xcscope.el man page
@@ -593,3 +578,14 @@ diff -rU4 -N -p cscope-15.5/doc/xcscope.1 cscope-15.5-xcscope/doc/xcscope.1
 +`cscope-database-file').  You can manually force the file to be
 +created by using touch(1) to create a zero-length file; the
 +database will be created the next time a search is done.
+--- cscope-15.6/doc/Makefile.in.orig	2006-09-30 11:14:57.000000000 -0400
++++ cscope-15.6/doc/Makefile.in	2007-05-25 09:46:04.000000000 -0400
+@@ -148,7 +148,7 @@
+ sharedstatedir = @sharedstatedir@
+ sysconfdir = @sysconfdir@
+ target_alias = @target_alias@
+-man_MANS = cscope.1
++man_MANS = cscope.1 xcscope.1
+ EXTRA_DIST = $(man_MANS)
+ all: all-am
+ 
