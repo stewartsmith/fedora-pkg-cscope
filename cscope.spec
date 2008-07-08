@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.6.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -17,6 +17,7 @@ Patch0:cscope-15.6-findassign.patch
 Patch1:cscope-15.6-ocs.patch
 Patch2:cscope-15.6-xcscope-man.patch
 Patch3:cscope-15.6-sigwinch-linemode.patch
+Patch4:cscope-15.6-qrebuild.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -31,6 +32,7 @@ matches for use in file editing.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure
@@ -79,6 +81,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Tue Jul 08 2008 Neil Horman <nhorman@redhat.com> -15.6-2.dist
+- Grab upstream patch for -q rebuld (bz 436648)
+
 * Fri Mar 25 2007 Neil Horman <nhorman@redhat.com> -15.6-1.dist
 - Rebase to version 15.6
 
