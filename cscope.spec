@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.6.tar.gz 
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -18,6 +18,7 @@ Patch1:cscope-15.6-ocs.patch
 Patch2:cscope-15.6-xcscope-man.patch
 Patch3:cscope-15.6-sigwinch-linemode.patch
 Patch4:cscope-15.6-qrebuild.patch
+Patch5:cscope-15.6-incdir-overflow.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -33,6 +34,7 @@ matches for use in file editing.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %configure
@@ -81,6 +83,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Fri Jun 12 2009 Neil Horman <nhorman@redhat.com>
+- Fix some buffer overflows (bz 505605)
+
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.6-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
