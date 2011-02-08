@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -79,6 +79,9 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 rm -f %{emacs_lisp_path}/xcscope.el
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.7a-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Thu Sep 30 2010 Neil Horman <nhorman@redhat.com - 15.7a-2
 - Ignore SIGPIPE in line mode (bz 638756)
 
