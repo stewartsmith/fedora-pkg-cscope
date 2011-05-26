@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 3%{?dist}
+Release: 4%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -12,11 +12,13 @@ BuildRequires: pkgconfig ncurses-devel flex bison m4
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
+%define vim_plugin_path %{datadir}/vim/vimfiles/plugin
 
 Patch0:cscope-15.6-findassign.patch
 Patch1:cscope-15.6-ocs.patch
 Patch2:cscope-15.6-xcscope-man.patch
 Patch3:cscope-15.7-sig_pipe.patch
+Patch4:cscope-15.7a-add-cctree.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -31,6 +33,7 @@ matches for use in file editing.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %configure
@@ -43,6 +46,7 @@ mkdir -p $RPM_BUILD_ROOT/var/lib/cs
 mkdir -p $RPM_BUILD_ROOT%{cscope_share_path}
 cp -a contrib/xcscope/xcscope.el $RPM_BUILD_ROOT%{cscope_share_path}
 cp -a contrib/xcscope/cscope-indexer $RPM_BUILD_ROOT%{_bindir}
+cp -a contrib/cctree.vim $RPM_BUILD_ROOT%{cscope_share_path}
 for dir in %{xemacs_lisp_path} %{emacs_lisp_path} ; do
   mkdir -p $RPM_BUILD_ROOT$dir
   ln -s %{cscope_share_path}/xcscope.el $RPM_BUILD_ROOT$dir
@@ -59,16 +63,19 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{_bindir}/*
 %dir %{cscope_share_path}
-%{cscope_share_path}/xcscope.el
+%{cscope_share_path}/
 %{_mandir}/man1/*
 %dir /var/lib/cs
-%doc AUTHORS COPYING ChangeLog README TODO
+%doc AUTHORS COPYING ChangeLog README TODO contrib/cctree.txt
 
 %triggerin -- xemacs
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
 
 %triggerin -- emacs
 ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
+
+%triggerin -- vim-filesystem
+ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 
 %triggerun -- xemacs
 [ $2 -gt 0 ] && exit 0
@@ -78,7 +85,14 @@ rm -f %{xemacs_lisp_path}/xcscope.el
 [ $2 -gt 0 ] && exit 0
 rm -f %{emacs_lisp_path}/xcscope.el
 
+%triggerun -- vim-filesystem
+[ $2 -gt 0 ] && exit 0
+rm -f %{vim_plugin_path}/cctree.vim
+
 %changelog
+* Thu May 26 2011 Neil Horman <nhorman@redhat.com> - 15.7a-4
+- Added cctree.vim vi plugin
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.7a-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
