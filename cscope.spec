@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 4%{?dist}
+Release: 5%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD 
@@ -12,7 +12,7 @@ BuildRequires: pkgconfig ncurses-devel flex bison m4
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
-%define vim_plugin_path %{datadir}/vim/vimfiles/plugin
+%define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
 Patch0:cscope-15.6-findassign.patch
 Patch1:cscope-15.6-ocs.patch
@@ -90,6 +90,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Wed Jun 01 2011 Neil Horman <nhorman@redhat.com> - 15.7a-5
+- Fix scriptles macro expansion (bz 708499)
+
 * Thu May 26 2011 Neil Horman <nhorman@redhat.com> - 15.7a-4
 - Added cctree.vim vi plugin
 
