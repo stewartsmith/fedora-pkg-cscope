@@ -1,13 +1,14 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
-License: BSD 
+License: BSD and GPLv2+
 Group: Development/Tools 
 BuildRoot: %{_tmppath}/%{name}-%{version}
 BuildRequires: pkgconfig ncurses-devel flex bison m4
+Requires: emacs-filesystem xemacs-filesystem
 
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
@@ -90,6 +91,10 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Fri Jun 24 2011 Neil Horman <nhorman@redhat.com> - 15.7a-6
+- Fixed licensing for xcscope.el (bz 715898)
+- Fixed xemacs pkg. dependency (bz 719523)
+
 * Wed Jun 01 2011 Neil Horman <nhorman@redhat.com> - 15.7a-5
 - Fix scriptles macro expansion (bz 708499)
 
