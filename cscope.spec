@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 6%{?dist}
+Release: 7%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -20,6 +20,7 @@ Patch1:cscope-15.6-ocs.patch
 Patch2:cscope-15.6-xcscope-man.patch
 Patch3:cscope-15.7-sig_pipe.patch
 Patch4:cscope-15.7a-add-cctree.patch
+Patch5:cscope-15.7a-lexerr.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -35,6 +36,7 @@ matches for use in file editing.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %configure
@@ -91,6 +93,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Wed Jun 30 2011 Neil Horman <nhorman@redhat.com> - 15.7a-7
+- Added LEXERR token to catch bad parsing before we crash (bz717545)
+
 * Fri Jun 24 2011 Neil Horman <nhorman@redhat.com> - 15.7a-6
 - Fixed licensing for xcscope.el (bz 715898)
 - Fixed xemacs pkg. dependency (bz 719523)
