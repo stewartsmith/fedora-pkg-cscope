@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 8%{?dist}
+Release: 9%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -93,6 +93,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Mar 05 2012 Neil Horman <nhorman@redhat.com> 15.7a-9
+- Fixed a segfault in the symbol assignment search (bz 799643)
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.7a-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
