@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.7a
-Release: 9%{?dist}
+Release: 10%{?dist}
 Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -21,6 +21,7 @@ Patch2:cscope-15.6-xcscope-man.patch
 Patch3:cscope-15.7-sig_pipe.patch
 Patch4:cscope-15.7a-add-cctree.patch
 Patch5:cscope-15.7a-lexerr.patch
+Patch6:cscope-invlib-overflow.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -37,6 +38,7 @@ matches for use in file editing.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 %configure
@@ -93,6 +95,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Mar 12 2012 Neil Horman <nhorman@redhat.com> -15.7a-10
+- Fixed a segfault in invlib construction ( bz 786523)
+
 * Mon Mar 05 2012 Neil Horman <nhorman@redhat.com> 15.7a-9
 - Fixed a segfault in the symbol assignment search (bz 799643)
 
