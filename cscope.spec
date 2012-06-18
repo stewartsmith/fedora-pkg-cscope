@@ -1,8 +1,8 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
-Version: 15.7a
-Release: 10%{?dist}
-Source0: http://unc.dl.sourceforge.net/sourceforge/cscope/cscope-15.7a.tar.bz2
+Version: 15.8
+Release: 1%{?dist}
+Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
@@ -15,14 +15,6 @@ Requires: emacs-filesystem xemacs-filesystem
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
 %define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
-Patch0:cscope-15.6-findassign.patch
-Patch1:cscope-15.6-ocs.patch
-Patch2:cscope-15.6-xcscope-man.patch
-Patch3:cscope-15.7-sig_pipe.patch
-Patch4:cscope-15.7a-add-cctree.patch
-Patch5:cscope-15.7a-lexerr.patch
-Patch6:cscope-invlib-overflow.patch
-
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
 allows users to search large source code bases for variables, functions,
@@ -32,13 +24,6 @@ matches for use in file editing.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
 
 %build
 %configure
@@ -95,6 +80,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Jun 18 2012 Neil Horman <nhorman@redhat.com> - 15.8
+- Update to latest upstream
+
 * Mon Mar 12 2012 Neil Horman <nhorman@redhat.com> -15.7a-10
 - Fixed a segfault in invlib construction ( bz 786523)
 
