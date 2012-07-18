@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -83,6 +83,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Tue Jul 10 2012 Neil Horman <nhorman@redhat.com> - 15.8-2
 - Fix inverted index sizing
 
