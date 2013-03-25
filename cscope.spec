@@ -1,13 +1,14 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8
-Release: 4%{?dist}
+Release: 5%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
 BuildRoot: %{_tmppath}/%{name}-%{version}
 BuildRequires: pkgconfig ncurses-devel flex bison m4
+BuildRequires: autoconf
 Requires: emacs-filesystem xemacs-filesystem
 
 %define cscope_share_path %{_datadir}/cscope
@@ -16,6 +17,7 @@ Requires: emacs-filesystem xemacs-filesystem
 %define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
 Patch0: cscope-invindex-sizing.patch
+Patch1: cscope-15.8-configure-in.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -27,6 +29,8 @@ matches for use in file editing.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p0
+autoreconf
 
 %build
 %configure
@@ -83,6 +87,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Mar 25 2013 Neil Horman <nhorman@redhat.com> - 15.8-5
+- Updated to run autoreconf for impending aarch64 introduction (bz 925201)
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
