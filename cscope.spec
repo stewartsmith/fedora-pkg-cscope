@@ -1,14 +1,14 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8
-Release: 5%{?dist}
+Release: 6%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
 BuildRoot: %{_tmppath}/%{name}-%{version}
 BuildRequires: pkgconfig ncurses-devel flex bison m4
-BuildRequires: autoconf
+BuildRequires: autoconf automake
 Requires: emacs-filesystem xemacs-filesystem
 
 %define cscope_share_path %{_datadir}/cscope
@@ -87,6 +87,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Mar 25 2013 Neil Horman <nhorman@redhat.com> - 15.8-6
+- Fixed build break
+
 * Mon Mar 25 2013 Neil Horman <nhorman@redhat.com> - 15.8-5
 - Updated to run autoreconf for impending aarch64 introduction (bz 925201)
 
