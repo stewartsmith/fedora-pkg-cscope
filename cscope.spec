@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8
-Release: 7%{?dist}
+Release: 8%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -18,6 +18,7 @@ Requires: emacs-filesystem xemacs-filesystem
 
 Patch0: cscope-invindex-sizing.patch
 Patch1: cscope-15.8-configure-in.patch
+Patch2: cscope-15.8-empty-function-array.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -30,6 +31,8 @@ matches for use in file editing.
 %setup -q
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
+
 autoreconf
 
 %build
@@ -87,6 +90,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Tue Apr 15 2014 Neil Horman <nhorman@redhat.com> - 15.8-8
+- Fixed formatting issue with empty function array (bz 1087940)
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
