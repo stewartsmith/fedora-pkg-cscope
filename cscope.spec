@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8
-Release: 10%{?dist}
+Release: 11%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -71,7 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 %triggerin -- xemacs
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
 
-%triggerin -- emacs
+%triggerin -- emacs, emacs-nox
 ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
 
 %triggerin -- vim-filesystem
@@ -81,7 +81,7 @@ ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 [ $2 -gt 0 ] && exit 0
 rm -f %{xemacs_lisp_path}/xcscope.el
 
-%triggerun -- emacs
+%triggerun -- emacs, emacs-nox
 [ $2 -gt 0 ] && exit 0
 rm -f %{emacs_lisp_path}/xcscope.el
 
@@ -90,6 +90,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Tue Sep 30 2014 Neil Horman <nhorman@redhat.com> - 15.8-11
+- Added triggerin support for emacs-nox (bz 961709)
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
