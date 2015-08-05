@@ -1,8 +1,8 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
-Version: 15.8
-Release: 12%{?dist}
-Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.bz2
+Version: 15.8b
+Release: 1%{?dist}
+Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
@@ -16,9 +16,6 @@ Requires: emacs-filesystem xemacs-filesystem
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
 %define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
-Patch0: cscope-invindex-sizing.patch
-Patch1: cscope-15.8-configure-in.patch
-Patch2: cscope-15.8-empty-function-array.patch
 
 %description
 cscope is a mature, ncurses based, C source code tree browsing tool.  It 
@@ -29,9 +26,6 @@ matches for use in file editing.
 
 %prep
 %setup -q
-%patch0 -p0
-%patch1 -p0
-%patch2 -p0
 
 autoreconf
 
@@ -90,7 +84,11 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
-* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-12
+* Wed Aug 05 2015 Neil Horman <nhorman@redhat.com> - 15.8b-1
+- Update to latest upstream
+
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> -
+* 15.8-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
 * Tue Sep 30 2014 Neil Horman <nhorman@redhat.com> - 15.8-11
@@ -135,7 +133,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.7a-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
-* Wed Jun 30 2011 Neil Horman <nhorman@redhat.com> - 15.7a-7
+* Thu Jun 30 2011 Neil Horman <nhorman@redhat.com> - 15.7a-7
 - Added LEXERR token to catch bad parsing before we crash (bz717545)
 
 * Fri Jun 24 2011 Neil Horman <nhorman@redhat.com> - 15.7a-6
@@ -169,7 +167,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 * Tue Jul 08 2008 Neil Horman <nhorman@redhat.com> -15.6-2.dist
 - Grab upstream patch for -q rebuld (bz 436648)
 
-* Fri Mar 25 2007 Neil Horman <nhorman@redhat.com> -15.6-1.dist
+* Tue Mar 27 2007 Neil Horman <nhorman@redhat.com> -15.6-1.dist
 - Rebase to version 15.6
 
 * Mon Mar 05 2007 Neil Horman <nhorman@redhat.com> -15.5-15.4.dist
