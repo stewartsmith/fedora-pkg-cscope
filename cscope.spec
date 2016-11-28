@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8b
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -39,7 +39,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT/var/lib/cs
 mkdir -p $RPM_BUILD_ROOT%{cscope_share_path}
 cp -a contrib/xcscope/xcscope.el $RPM_BUILD_ROOT%{cscope_share_path}
-cp -a contrib/xcscope/cscope-indexer $RPM_BUILD_ROOT%{_bindir}
+install -m 755 contrib/xcscope/cscope-indexer $RPM_BUILD_ROOT%{_bindir}
 cp -a contrib/cctree.vim $RPM_BUILD_ROOT%{cscope_share_path}
 for dir in %{xemacs_lisp_path} %{emacs_lisp_path} ; do
   mkdir -p $RPM_BUILD_ROOT$dir
@@ -84,6 +84,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Nov 28 2016 Neil Horman <nhorman@redhat.com> - 15.8b-3
+- Changed permissions on cscope-indexer (bz 1399108)
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 15.8b-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
