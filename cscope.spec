@@ -48,9 +48,6 @@ for dir in %{xemacs_lisp_path} %{emacs_lisp_path} ; do
 done
 
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 
 %files -f %{name}-%{version}.files
 %defattr(-,root,root,-)
