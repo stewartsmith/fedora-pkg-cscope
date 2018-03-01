@@ -1,14 +1,17 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.8b
-Release: 7%{?dist}
+Release: 8%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
-Requires: emacs-filesystem xemacs-filesystem
+Requires: emacs-filesystem
+%if !0%{?rhel}
+Requires: xemacs-filesystem
+%endif
 
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
@@ -58,8 +61,10 @@ done
 %dir /var/lib/cs
 %doc AUTHORS COPYING ChangeLog README TODO contrib/cctree.txt
 
+%if !0%{?rhel}
 %triggerin -- xemacs
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
+%endif
 
 %triggerin -- emacs, emacs-nox
 ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
@@ -67,9 +72,11 @@ ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
 %triggerin -- vim-filesystem
 ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 
+%if !0%{?rhel}
 %triggerun -- xemacs
 [ $2 -gt 0 ] && exit 0
 rm -f %{xemacs_lisp_path}/xcscope.el
+%endif
 
 %triggerun -- emacs, emacs-nox
 [ $2 -gt 0 ] && exit 0
@@ -80,6 +87,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Thu Mar 01 2018 Josh Boyer <jwboyer@fedoraproject.org> - 15.8b-8
+- Conditionalize xemacs
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 15.8b-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
