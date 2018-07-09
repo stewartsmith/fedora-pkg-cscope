@@ -6,6 +6,7 @@ Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
 Group: Development/Tools 
+BuildRequires:  gcc
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
 Requires: emacs-filesystem
