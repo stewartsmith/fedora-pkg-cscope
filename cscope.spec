@@ -54,7 +54,6 @@ done
 
 
 %files -f %{name}-%{version}.files
-%defattr(-,root,root,-)
 %{_bindir}/*
 %dir %{cscope_share_path}
 %{cscope_share_path}/
