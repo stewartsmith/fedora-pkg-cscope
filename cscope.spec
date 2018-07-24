@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
-Version: 15.8b
-Release: 9%{?dist}
+Version: 15.9
+Release: 1%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -66,7 +66,7 @@ done
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
 %endif
 
-%triggerin -- emacs, emacs-nox
+%triggerin -- emacs, emacs-nox, emacs-lucid
 ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
 
 %triggerin -- vim-filesystem
@@ -78,7 +78,7 @@ ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 rm -f %{xemacs_lisp_path}/xcscope.el
 %endif
 
-%triggerun -- emacs, emacs-nox
+%triggerun -- emacs, emacs-nox, emacs-lucid
 [ $2 -gt 0 ] && exit 0
 rm -f %{emacs_lisp_path}/xcscope.el
 
@@ -87,6 +87,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Tue Jul 24 2018 Neil Horman <nhorman@redhat.com> - 15.9-1
+- update to latest upstream
+
 * Thu Jul 12 2018 Fedora Release Engineering <releng@fedoraproject.org> - 15.8b-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
