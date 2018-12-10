@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.9
-Release: 1%{?dist}
+Release: 2%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -9,7 +9,7 @@ Group: Development/Tools
 BuildRequires:  gcc
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
-Requires: emacs-filesystem
+Requires: emacs-filesystem coreutils
 %if !0%{?rhel}
 Requires: xemacs-filesystem
 %endif
@@ -87,6 +87,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Dec 10 2018 Neil Horman <nhorman@redhat.com> - 15.9-2
+- update Requires to include coreutils (bz 1657775)
+
 * Tue Jul 24 2018 Neil Horman <nhorman@redhat.com> - 15.9-1
 - update to latest upstream
 
