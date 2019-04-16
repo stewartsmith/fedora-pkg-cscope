@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.9
-Release: 2%{?dist}
+Release: 3%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -13,6 +13,8 @@ Requires: emacs-filesystem coreutils
 %if !0%{?rhel}
 Requires: xemacs-filesystem
 %endif
+
+Patch1: cscope-dblfree.patch
 
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
@@ -29,6 +31,7 @@ matches for use in file editing.
 
 %prep
 %setup -q
+%patch1 -p1 
 
 autoreconf
 
@@ -87,6 +90,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Thu Apr 11 2019 Neil Horman <nhorman@redhat.com> - 15.9-3
+- Fixing double free (bz 1657210)
+
 * Mon Dec 10 2018 Neil Horman <nhorman@redhat.com> - 15.9-2
 - update Requires to include coreutils (bz 1657775)
 
