@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.9
-Release: 7%{?dist}
+Release: 8%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -9,6 +9,7 @@ BuildRequires:  gcc
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
 Requires: emacs-filesystem coreutils
+Requires: ed
 %if !0%{?rhel}
 Requires: xemacs-filesystem
 %endif
@@ -89,6 +90,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Wed Jul 29 2020 Neil Horman <nhorman@redhat.com> - 15.9-8
+- Adding missing dependency on ed (bz 1861697)
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 15.9-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
