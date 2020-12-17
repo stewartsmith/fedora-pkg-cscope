@@ -8,6 +8,7 @@ License: BSD and GPLv2+
 BuildRequires:  gcc
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
+BuildRequires: make
 Requires: emacs-filesystem coreutils
 Requires: ed
 %if !0%{?rhel}
