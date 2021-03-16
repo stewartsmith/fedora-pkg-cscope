@@ -1,11 +1,11 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.9
-Release: 9%{?dist}
-Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
+Release: 10%{?dist}
+Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/v%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
-BuildRequires:  gcc
+BuildRequires: gcc
 BuildRequires: pkgconfig ncurses-devel flex bison m4
 BuildRequires: autoconf automake
 BuildRequires: make
@@ -15,7 +15,14 @@ Requires: ed
 Requires: xemacs-filesystem
 %endif
 
-Patch1: cscope-dblfree.patch
+Patch1: cscope-1-modified-from-patch-81-Fix-reading-include-files-in-.patch
+Patch2: cscope-2-Cull-extraneous-declaration.patch
+Patch3: cscope-3-Avoid-putting-directories-found-during-header-search.patch
+Patch4: cscope-4-Avoid-double-free-via-double-fclose-in-changestring.patch
+Patch5: cscope-5-contrib-ocs-Fix-bashims-Closes-480591.patch
+Patch6: cscope-6-doc-cscope.1-Fix-hyphens.patch
+Patch7: cscope-7-fscanner-swallow-function-as-parameters.patch
+Patch8: cscope-8-emacs-plugin-fixup-GNU-Emacs-27.1-removes-function-p.patch
 
 %define cscope_share_path %{_datadir}/cscope
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
@@ -33,6 +40,13 @@ matches for use in file editing.
 %prep
 %setup -q
 %patch1 -p1 
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
 
 autoreconf
 
@@ -91,6 +105,11 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Tue Mar 16 2021 Vladis Dronov <vdronov@redhat.com> - 15.9-10
+- Bring in important patches from the upstream (39fb38..eaea31 in a git repo)
+- Fix the upstream tarball URL
+- Remove outdated patch files
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 15.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
