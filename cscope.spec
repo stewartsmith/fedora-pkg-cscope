@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool 
 Name: cscope
 Version: 15.9
-Release: 11%{?dist}
+Release: 12%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/v%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -11,7 +11,7 @@ BuildRequires: autoconf automake
 BuildRequires: make
 Requires: emacs-filesystem coreutils
 Requires: ed
-%if !0%{?rhel}
+%if !0%{?rhel} && 0%{?fedora} < 36
 Requires: xemacs-filesystem
 %endif
 
@@ -25,7 +25,11 @@ Patch7: cscope-7-fscanner-swallow-function-as-parameters.patch
 Patch8: cscope-8-emacs-plugin-fixup-GNU-Emacs-27.1-removes-function-p.patch
 
 %define cscope_share_path %{_datadir}/cscope
+%if !0%{?rhel} && 0%{?fedora} < 36
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
+%else
+%define xemacs_lisp_path %nil
+%endif
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
 %define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
@@ -79,7 +83,7 @@ done
 %dir /var/lib/cs
 %doc AUTHORS COPYING ChangeLog README TODO contrib/cctree.txt
 
-%if !0%{?rhel}
+%if !0%{?rhel} && 0%{?fedora} < 36
 %triggerin -- xemacs
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
 %endif
@@ -90,7 +94,7 @@ ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
 %triggerin -- vim-filesystem
 ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 
-%if !0%{?rhel}
+%if !0%{?rhel} && 0%{?fedora} < 36
 %triggerun -- xemacs
 [ $2 -gt 0 ] && exit 0
 rm -f %{xemacs_lisp_path}/xcscope.el
@@ -105,6 +109,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Tue Nov  9 2021 Jerry James <loganjerry@gmail.com> - 15.9-12
+- Drop XEmacs support in F36 and later
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 15.9-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
