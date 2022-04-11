@@ -1,20 +1,18 @@
-Summary: C source code tree search and browse tool 
+Summary: C source code tree search and browse tool
 Name: cscope
 Version: 15.9
-Release: 13%{?dist}
+Release: 14%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/v%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
-BuildRequires: gcc
-BuildRequires: pkgconfig ncurses-devel flex bison m4
-BuildRequires: autoconf automake
-BuildRequires: make
-Requires: emacs-filesystem coreutils
-Requires: ed
+BuildRequires: pkgconf-pkg-config ncurses-devel gcc flex bison m4
+BuildRequires: autoconf automake make
+Requires: emacs-filesystem coreutils ed
 %if !0%{?rhel} && 0%{?fedora} < 36
 Requires: xemacs-filesystem
 %endif
 
+# upstream commits from https://sourceforge.net/p/cscope/cscope/commit_browser
 Patch1: cscope-1-modified-from-patch-81-Fix-reading-include-files-in-.patch
 Patch2: cscope-2-Cull-extraneous-declaration.patch
 Patch3: cscope-3-Avoid-putting-directories-found-during-header-search.patch
@@ -23,6 +21,10 @@ Patch5: cscope-5-contrib-ocs-Fix-bashims-Closes-480591.patch
 Patch6: cscope-6-doc-cscope.1-Fix-hyphens.patch
 Patch7: cscope-7-fscanner-swallow-function-as-parameters.patch
 Patch8: cscope-8-emacs-plugin-fixup-GNU-Emacs-27.1-removes-function-p.patch
+# distrubution patches which were not upstreamed
+Patch9: dist-1-coverity-fixes.patch
+Patch10: dist-2-cscope-indexer-help.patch
+Patch11: dist-3-add-selftests.patch
 
 %define cscope_share_path %{_datadir}/cscope
 %if !0%{?rhel} && 0%{?fedora} < 36
@@ -33,34 +35,27 @@ Patch8: cscope-8-emacs-plugin-fixup-GNU-Emacs-27.1-removes-function-p.patch
 %define emacs_lisp_path %{_datadir}/emacs/site-lisp
 %define vim_plugin_path %{_datadir}/vim/vimfiles/plugin
 
-
 %description
-cscope is a mature, ncurses based, C source code tree browsing tool.  It 
+cscope is a mature, ncurses based, C source code tree browsing tool.  It
 allows users to search large source code bases for variables, functions,
-macros, etc, as well as perform general regex and plain text searches.  
-Results are returned in lists, from which the user can select individual 
+macros, etc, as well as perform general regex and plain text searches.
+Results are returned in lists, from which the user can select individual
 matches for use in file editing.
 
 %prep
-%setup -q
-%patch1 -p1 
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-
-autoreconf
+%autosetup -p1
 
 %build
+aclocal
+autoheader
+autoconf
+automake --add-missing
 %configure
 make
 
 %install
 rm -rf $RPM_BUILD_ROOT %{name}-%{version}.files
-make DESTDIR=$RPM_BUILD_ROOT install 
+make DESTDIR=$RPM_BUILD_ROOT install
 mkdir -p $RPM_BUILD_ROOT/var/lib/cs
 mkdir -p $RPM_BUILD_ROOT%{cscope_share_path}
 cp -a contrib/xcscope/xcscope.el $RPM_BUILD_ROOT%{cscope_share_path}
@@ -73,7 +68,8 @@ for dir in %{xemacs_lisp_path} %{emacs_lisp_path} ; do
   echo "%ghost $dir/xcscope.el*" >> %{name}-%{version}.files
 done
 
-
+%check
+make check
 
 %files -f %{name}-%{version}.files
 %{_bindir}/*
@@ -109,6 +105,10 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Apr 11 2022 Vladis Dronov <vdronov@redhat.com> - 15.9-14
+- Add distrubution patches which were not upstreamed
+- Add self-tests
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 15.9-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
@@ -177,8 +177,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 * Wed Aug 05 2015 Neil Horman <nhorman@redhat.com> - 15.8b-1
 - Update to latest upstream
 
-* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> -
-* 15.8-12
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.8-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
 * Tue Sep 30 2014 Neil Horman <nhorman@redhat.com> - 15.8-11
@@ -248,7 +247,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.6-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
-* Fri Jun 12 2009 Neil Horman <nhorman@redhat.com>
+* Fri Jun 12 2009 Neil Horman <nhorman@redhat.com> - 15.6-4
 - Fix some buffer overflows (bz 505605)
 
 * Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15.6-3
@@ -314,7 +313,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 
 * Tue Sep 28 2004 Neil Horman <nhorman@redhat.com>
 - fixed inverted index bug (bz 133942)
- 
+
 * Mon Sep 13 2004 Frank Ch. Eigler <fche@redhat.com>
 - bumped release number to a plain "1"
 
@@ -328,7 +327,7 @@ rm -f %{vim_plugin_path}/cctree.vim
 - Added upstream ocs fix
 - Added feature to find symbol assignments
 - Changed default SYSDIR directory to /var/lib/cs
-- Incoproated M. Schwendt's fix for ocs -s 
+- Incoproated M. Schwendt's fix for ocs -s
 
 * Fri Jun 18 2004 Neil Horman <nhorman@redhat.com>
 - built the package
