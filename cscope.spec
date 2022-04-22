@@ -1,7 +1,7 @@
 Summary: C source code tree search and browse tool
 Name: cscope
 Version: 15.9
-Release: 14%{?dist}
+Release: 15%{?dist}
 Source0: https://downloads.sourceforge.net/project/%{name}/%{name}/v%{version}/%{name}-%{version}.tar.gz
 URL: http://cscope.sourceforge.net
 License: BSD and GPLv2+
@@ -25,6 +25,7 @@ Patch8: cscope-8-emacs-plugin-fixup-GNU-Emacs-27.1-removes-function-p.patch
 Patch9: dist-1-coverity-fixes.patch
 Patch10: dist-2-cscope-indexer-help.patch
 Patch11: dist-3-add-selftests.patch
+Patch12: dist-4-fix-printf.patch
 
 %define cscope_share_path %{_datadir}/cscope
 %if !0%{?rhel} && 0%{?fedora} < 36
@@ -105,6 +106,9 @@ rm -f %{emacs_lisp_path}/xcscope.el
 rm -f %{vim_plugin_path}/cctree.vim
 
 %changelog
+* Mon Apr 11 2022 Vladis Dronov <vdronov@redhat.com> - 15.9-15
+- Add another small distrubution patch
+
 * Mon Apr 11 2022 Vladis Dronov <vdronov@redhat.com> - 15.9-14
 - Add distrubution patches which were not upstreamed
 - Add self-tests
