@@ -1,3 +1,9 @@
+%if !0%{?rhel} && 0%{?fedora} < 36
+%bcond_without xemacs
+%else
+%bcond_with xemacs
+%endif
+
 Summary: C source code tree search and browse tool
 Name: cscope
 Version: 15.9
@@ -8,7 +14,7 @@ License: BSD and GPLv2+
 BuildRequires: pkgconf-pkg-config ncurses-devel gcc flex bison m4
 BuildRequires: autoconf automake make
 Requires: emacs-filesystem coreutils ed
-%if !0%{?rhel} && 0%{?fedora} < 36
+%if %{with xemacs}
 Requires: xemacs-filesystem
 %endif
 
@@ -31,7 +37,7 @@ Patch13: dist-3-add-selftests.patch
 Patch14: dist-4-fix-printf.patch
 
 %define cscope_share_path %{_datadir}/cscope
-%if !0%{?rhel} && 0%{?fedora} < 36
+%if  %{with xemacs}
 %define xemacs_lisp_path %{_datadir}/xemacs/site-packages/lisp
 %else
 %define xemacs_lisp_path %nil
@@ -83,7 +89,7 @@ make check
 %dir /var/lib/cs
 %doc AUTHORS COPYING ChangeLog README TODO contrib/cctree.txt
 
-%if !0%{?rhel} && 0%{?fedora} < 36
+%if %{with xemacs}
 %triggerin -- xemacs
 ln -sf %{cscope_share_path}/xcscope.el %{xemacs_lisp_path}/xcscope.el
 %endif
@@ -94,7 +100,7 @@ ln -sf %{cscope_share_path}/xcscope.el %{emacs_lisp_path}/xcscope.el
 %triggerin -- vim-filesystem
 ln -sf %{cscope_share_path}/cctree.vim %{vim_plugin_path}/cctree.vim
 
-%if !0%{?rhel} && 0%{?fedora} < 36
+%if %{with xemacs}
 %triggerun -- xemacs
 [ $2 -gt 0 ] && exit 0
 rm -f %{xemacs_lisp_path}/xcscope.el
